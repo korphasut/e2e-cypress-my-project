@@ -1,14 +1,14 @@
 describe("Register", () => {
-  let testUser;
+  let userTest;
 
   before(() => {
-    cy.fixture("testUser")
+    cy.fixture("userForRegister")
       .then((user) => {
-        testUser = user;
+        userTest = user;
 
         cy.request({
           method: "DELETE",
-          url: `https://fastapi-backend-d5cy.onrender.com/delete-user/${testUser.username}`,
+          url: `https://fastapi-backend-d5cy.onrender.com/delete-user/${userTest.username}`,
           failOnStatusCode: false,
         });
       })
@@ -24,19 +24,21 @@ describe("Register", () => {
   });
 
   it("Register Success", () => {
-    cy.intercept("GET", "https://new-frontend-55s.pages.dev/").as("loginPage");
+    cy.intercept("GET", "**").as("loadAll");
     cy.intercept("GET", "**/_nuxt/**").as("loadNuxt");
     cy.visit("https://new-frontend-55s.pages.dev/");
-    cy.wait("@loginPage", { timeout: 5000 });
+    cy.wait("@loadAll", { timeout: 5000 });
     cy.wait("@loadNuxt", { timeout: 5000 });
     cy.get('[data-testid="login-container"]').should("be.visible");
     cy.get('[data-testid="register-link"]').click();
     cy.get('[data-testid="register-title"]').should("be.visible");
-    cy.get('[data-testid="register-username"]').type(`${testUser.username}`);
-    cy.get('[data-testid="register-password"]').type(`${testUser.password}`);
-    cy.get(`[data-testid="register-gender-${testUser.gender}"]`).click();
-    cy.get('[data-testid="register-email"]').type(`${testUser.email}`);
-    cy.get('[data-testid="register-mobile"]').type(`${testUser.mobile}`);
+    cy.get('[data-testid="register-username"]')
+      .should("be.enabled")
+      .type(`${userTest.username}`);
+    cy.get('[data-testid="register-password"]').type(`${userTest.password}`);
+    cy.get(`[data-testid="register-gender-${userTest.gender}"]`).click();
+    cy.get('[data-testid="register-email"]').type(`${userTest.email}`);
+    cy.get('[data-testid="register-mobile"]').type(`${userTest.mobile}`);
     cy.get('[data-testid="register-button"]').should("be.enabled").click();
     cy.get('[data-testid="login-container"]', { timeout: 60000 }).should(
       "be.visible"
@@ -52,11 +54,11 @@ describe("Register", () => {
     cy.get('[data-testid="login-container"]').should("be.visible");
     cy.get('[data-testid="register-link"]').click();
     cy.get('[data-testid="register-title"]').should("be.visible");
-    cy.get('[data-testid="register-username"]').type(`${testUser.username}`);
-    cy.get('[data-testid="register-password"]').type(`${testUser.password}`);
-    cy.get(`[data-testid="register-gender-${testUser.gender}"]`).click();
-    cy.get('[data-testid="register-email"]').type(`${testUser.email}`);
-    cy.get('[data-testid="register-mobile"]').type(`${testUser.mobile}`);
+    cy.get('[data-testid="register-username"]').type(`${userTest.username}`);
+    cy.get('[data-testid="register-password"]').type(`${userTest.password}`);
+    cy.get(`[data-testid="register-gender-${userTest.gender}"]`).click();
+    cy.get('[data-testid="register-email"]').type(`${userTest.email}`);
+    cy.get('[data-testid="register-mobile"]').type(`${userTest.mobile}`);
     cy.get('[data-testid="register-button"]').should("be.enabled").click();
 
     // ใช้ should contain ปกติ
