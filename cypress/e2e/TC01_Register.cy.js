@@ -39,7 +39,7 @@ describe("Register", () => {
     cy.get(`[data-testid="register-gender-${userTest.gender}"]`).click();
     cy.get('[data-testid="register-email"]').type(`${userTest.email}`);
     cy.get('[data-testid="register-mobile"]').type(`${userTest.mobile}`);
-    cy.get('[data-testid="register-button"]').should("be.enabled").click();
+    cy.get('[data-testid="register-button"]').should("be.visible").and("be.enabled").click();
     cy.get('[data-testid="login-container"]', { timeout: 60000 }).should(
       "be.visible"
     );
@@ -59,7 +59,7 @@ describe("Register", () => {
     cy.get(`[data-testid="register-gender-${userTest.gender}"]`).click();
     cy.get('[data-testid="register-email"]').type(`${userTest.email}`);
     cy.get('[data-testid="register-mobile"]').type(`${userTest.mobile}`);
-    cy.get('[data-testid="register-button"]').should("be.enabled").click();
+    cy.get('[data-testid="register-button"]').should("be.visible").and("be.enabled").click();
 
     // ใช้ should contain ปกติ
     cy.get('[data-testid="register-error"]', { timeout: 60000 }).should(
